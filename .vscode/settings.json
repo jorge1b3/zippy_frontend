@@ -1,0 +1,10 @@
+{
+    "cSpell.enableFiletypes": [
+        "!typescriptreact"
+    ],
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.rome":true,
+        "source.organizeImports": true
+    }
+}

@@ -1,0 +1,21 @@
+.link-secondary{
+    background: var(--bs-primary);
+    font-size: 15px;
+    color: var(--swiper-theme-color);
+    --bs-dark: #01182e;
+    --bs-dark-rgb: 1, 24, 46;
+    --bs-primary: #01182e;
+    --bs-primary-rgb: 1, 24, 46;
+}
+
+.text-muted {
+    --bs-text-opacity: 1;
+    color: #00ff9a!important;
+    font-size: 15px;
+    text-align: center;
+}
+
+.my-2 {
+    margin-top: 0.5rem!important;
+    margin-bottom: 0.5rem!important;
+}
