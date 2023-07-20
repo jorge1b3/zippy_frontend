@@ -1,0 +1,13 @@
+.bprimary {
+  background-color: #e1e619 !important;
+  color: #ffffff !important;
+}
+.bprimary::hover {
+  background-color: #bcbe1a !important;
+}
+.bsecondary {
+  background-color: #3b41ad !important;
+}
+.bsecondary::hover {
+  background-color: #535bf2 !important;
+}

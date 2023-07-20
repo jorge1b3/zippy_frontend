@@ -1,7 +1,7 @@
-import { Table } from "react-bootstrap";
-import "./AppStationDetails.css";
 import { MyButton } from "./MyButton";
 import vehicleImage from "./assets/patineta.jpg";
+//import "./AppStationDetails.css";
+import { Container, Table } from "react-bootstrap";
 
 const station = {
   id: 1,
@@ -41,10 +41,12 @@ const station = {
 
 export function AppStationDetails() {
   return (
+    <Container>
     <Table striped bordered hover size="sm" responsive cellPadding={"1em"}>
       <thead>
         <tr>
           <th>id</th>
+          <th>Imagen</th>
           <th>Modelo</th>
           <th>Tipo</th>
           <th>Ultimo mantenimiento</th>
@@ -53,7 +55,7 @@ export function AppStationDetails() {
       </thead>
       <tbody>
           {station.bikes.map((bike) => (
-            <tr>
+            <tr key={bike.id}>
               <td>{bike.id}</td>
               <td><img src={vehicleImage} alt="vehicle" style={{maxWidth: "10vh"}} /></td>
               <td>{bike.model}</td>
@@ -68,5 +70,6 @@ export function AppStationDetails() {
           ))}
       </tbody>
     </Table>
+    </Container>
   );
 }

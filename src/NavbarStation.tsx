@@ -1,77 +1,66 @@
-import { Button, Collapse, Container, Navbar, NavbarBrand } from "react-bootstrap";
-import "./Navbar.css";
+import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import Logo from "./assets/scooter.svg";
+import "./zippyColors.css";
 
-
-function NavbarStation() {
-  return (
-    <Navbar bg="dark" variant="dark" expand="md" className="bg-dark py-3" >
-      <Container>
-        <NavbarBrand href="#">
-        <span
-            class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon"
-            style={{
-              background: "#e1e619",
-              color: "var(--bs-black)",
-              width: "38px",
-              height: "38px"
-            }}
-          >
-          </span>
-          <image src={Logo} alt="Logo" style={{ width: "38px", height: "38px" }} />
-          <span className="fs-4" style={{ fontSize: "22px" }}>
-            Zippy
-          </span>
-        </NavbarBrand>
-        <Button
-        onClick={() => setOpen(!open)}
-        aria-controls="example-collapse-text"
-        aria-expanded={open}
-        >Toggle navigation</Button>
-        <Collapse className="collapse navbar-collapse flex-grow-0 order-md-first" in={open}>
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <a class="nav-link active fs-5" href="#" style={{ fontSize: "18px" }}>
-                Sobre nosotros
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link fs-5"
-                href="#Contact Details"
-                style={{ fontSize: "18px", color: "var(--bs-gray-400)" }}
-              >
-                Contacto
-              </a>
-            </li>
-          </ul>
-          <div class="d-md-none my-2">
-            <button class="btn btn-light me-2" type="button">
-              <span style={{ color: "rgb(1, 24, 46)" }}>Iniciar sesión</span>
-            </button>
-            <button
-              class="btn btn-primary"
-              type="button"
-              style={{ background: "#e1e619" }}
-            >
-              <span style={{ color: "rgb(1, 24, 46)" }}>Registro</span>
-            </button>
-          </div>
-        <div class="d-none d-md-block">
-          <a class="btn btn-light me-2" role="button" href="login.html">
-            Iniciar Sesión
-          </a>
-          <a
-            class="btn btn-primary"
-            role="button"
-            href="login.html"
-            style={{ background: "#e1e619", color: "var(--bs-black)" }}
-          >
-            Registro
-          </a>
-        </div>
-        </Collapse>
-      </Container>
-    </Navbar>
-  );
+export function NavbarStation({
+	showme = true,
+	btn1text = "Iniciar Sesión",
+	btn2text = "Registro",
+}) {
+	return (
+		<Navbar
+			bg="dark"
+			data-bs-theme="dark"
+			//fixed="top"
+			expand="lg"
+			className="justify-content-arround"
+		>
+			<Container className="d-flex">
+				<Navbar.Brand href="#" className="">
+					<img
+						src={Logo}
+						alt="Logo"
+						width={38}
+						height={38}
+						style={{
+							background: "#e1e619",
+							borderRadius: "10%",
+						}}
+					/>{" "}
+					Zippy{" "}
+				</Navbar.Brand>
+				<Navbar.Toggle aria-controls="basic-navbar-nav" />
+				<Navbar.Collapse id="basic-navbar-nav" className="justify-content-left">
+					<Nav className="me-auto">
+						<Nav.Link
+							className="fs-6 text-muted"
+							href="#nosotros"
+							active={false}
+						>
+							Sobre Nosotros
+						</Nav.Link>
+						<Nav.Link
+							className="fs-6 text-muted"
+							href="#contacto"
+							active={false}
+						>
+							Contacto
+						</Nav.Link>
+					</Nav>
+					<Nav className="ms-auto">
+						<Button className="mx-2">
+							<Nav.Link href="#home" hidden={!showme} className="fs-5">
+								{btn1text}
+							</Nav.Link>
+						</Button>
+						<Button className="mx-2" variant="secondary">
+							<Nav.Link href="#link" hidden={!showme} className="fs-5">
+								{btn2text}
+							</Nav.Link>
+						</Button>
+					</Nav>
+				</Navbar.Collapse>
+			</Container>
+		</Navbar>
+	);
 }

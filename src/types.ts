@@ -1,6 +1,69 @@
 import { ObjectId } from "bson";
 
-export interface Station {
+//type CrudOperation = 'GET' | 'POST' | 'DELETE' | 'PUT'
+
+
+
+// export class HttpRequest{
+// 	uri = '';
+// 	header = {
+// 		"Content-Type": "application/json"
+// 	};
+// 	method = 'GET';
+// 	body = ''
+
+// 	public POST (){
+// 		this.method = 'POST'
+// 		return
+// 	}
+
+// 	public GET(){
+// 		this.method = 'GET'
+// 		return this
+// 	}
+
+// 	public DELETE(){
+// 		this.method = 'DELETE'
+// 		return this
+// 	}
+
+// 	public PUT(){
+// 		this.method = 'PUT'
+// 		return this
+// 	}
+
+// 	public setUri(uri: string){
+// 		this.uri = uri
+// 		return this
+// 	}
+
+// 	public authentication(token: Token){
+// 		this.header = Object.defineProperty(this.header, 'Authentication', `Bearer ${token.accessToken}`)
+// 		return this
+// 	}
+
+// 	public setBody(body: Object){
+// 		this.body = JSON.stringify(body)
+// 		return this
+// 	}
+
+// 	public toJson(){
+// 		return JSON.stringify(
+// 			{
+// 				method : this.method,
+// 				headers: this.header,
+// 				body: this.body
+// 			}
+// 		)
+// 	}
+// }
+
+export type login = {
+	username: String,
+	password: String
+}
+
+export type Station = {
 	id: ObjectId;
 	name: string;
 	coordinates: [number, number];
@@ -18,28 +81,29 @@ export interface Station {
 	}[];
 }
 
-export interface Address {
+
+
+
+export type Address = {
 	info: string;
 	city: {
 		name: string;
 		id: number;
 	};
-	state: {
+	state?: {
 		name: string;
 		id: number;
 	};
-	country: {
+	country?: {
 		name: string;
 		id: number;
 	};
 }
 
 export interface User {
-	id: ObjectId;
 	firstName: string;
 	lastName: string;
 	email: string;
-	password: string;
 	birthDate: Date;
 	phone: string;
 	document: string;
@@ -56,11 +120,15 @@ export interface User {
 	};
 }
 
-export interface Vehicle {
+export interface ResponseUser extends User{
 	id: ObjectId;
+}
+
+export type Vehicle = {
+	id: ObjectId;
+	serial: string;
 	model: string;
 	type: "BICYCLE" | "SCOOTER";
-	serial: string;
 	status: VehicleStatus;
 	battery: number;
 	isElectric: boolean;
@@ -76,13 +144,13 @@ export type VehicleStatus =
 	| "OUT_OF_SERVICE"
 	| "UNAVAILABLE";
 
-export interface Token {
+export type Token = {
 	userId: ObjectId;
 	accessToken: string;
 	refreshToken: string;
 }
 
-export interface FetchOptions {
+export type FetchOptions = {
 	body?: string;
 	method: "GET" | "POST" | "PUT" | "DELETE";
 	headers: {
@@ -91,12 +159,12 @@ export interface FetchOptions {
 	};
 }
 
-export interface GeoJSONGeometry {
+export type GeoJSONGeometry = {
 	type: "Point" | "MultiPoint" | "LineString" | "MultiLineString";
 	coordinates: [number, number][];
 }
 
-export interface GeoJSONfeature {
+export type GeoJSONfeature = {
 	type: "Feature";
 	geometry: GeoJSONGeometry;
 	properties: {
@@ -120,7 +188,8 @@ export interface GeoJSONfeature {
 	};
 }
 
-export interface GeoJSON {
+export type GeoJSON  ={
 	type: "FeatureCollection";
 	features: GeoJSONfeature[];
 }
+

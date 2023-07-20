@@ -1,33 +1,7 @@
 import { useEffect, useState } from "react";
-import "./index.css";
-import { FetchOptions, Token, Vehicle } from "./types";
-import { getData } from "./utils";
-const auth = async (username: String, password: String) => {
-	const fetchOp: FetchOptions = {
-		method: "POST",
-		body: JSON.stringify({
-			username: username,
-			password: password,
-		}),
-		headers: {
-			"Content-Type": "application/json",
-		},
-	};
-	const url = "http://34.23.109.180:8080/api/auth/login";
-	return getData<Token>(url, fetchOp);
-};
-
-const getVehicles = async (token: Token) => {
-	const fetchOp: FetchOptions = {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${token.accessToken}`,
-		},
-	};
-	const url = "http://34.23.109.180:8080/api/vehicle/all";
-	return getData<Vehicle[]>(url, fetchOp);
-};
+import { Container } from "react-bootstrap";
+import { auth, getVehicles } from "./rest";
+import { Vehicle } from "./types";
 
 export const VehicleCard = () => {
 	const [vehicles, setVehicles] = useState<Vehicle[]>([]);
@@ -37,34 +11,27 @@ export const VehicleCard = () => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			useEffect;
-			const [loginResponse, loginError] = await auth(username, password);
-			if (loginError) {
-				setError(loginError);
-				return;
+			const loginResponse = await auth(username, password);
+			const vehiclesResponse = await getVehicles(loginResponse.right());
+			if (loginResponse.isLeft() || vehiclesResponse.isLeft()) {
+				setError(loginResponse.left() || vehiclesResponse.right());
 			}
-			const [vehicleResponse, vehicleError] = await getVehicles(loginResponse);
-			if (vehicleError) {
-				setError(vehicleError);
-				return;
-			}
-			setVehicles(vehicleResponse);
+			setVehicles(vehiclesResponse.right());
 		};
 		fetchData();
 	}, []);
 
-	if (error) {
-		return <div>Uppps! Estamos teniendo problemas</div>;
-	} else {
-		return (
-			<div>
-				<h1>Vehicles</h1>
-				<ul>
-					{vehicles.map((vehicle) => (
-						<li>{vehicle.model}</li>
-					))}
-				</ul>
-			</div>
-		);
-	}
+	return (
+		<Container>
+			<ul>
+				{error ? (
+					<div>Error: {error.message}</div>
+				) : (
+					vehicles.map((vehicle) => (
+						<li key={vehicle.serial}>{vehicle.model}</li>
+					))
+				)}
+			</ul>
+		</Container>
+	);
 };
