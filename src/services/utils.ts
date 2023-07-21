@@ -45,3 +45,4 @@ export const getData: request = async (options, url) => {
     return Either.left(error as Error);
   }
 };
+

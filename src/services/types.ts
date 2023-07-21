@@ -3,61 +3,6 @@ import { ObjectId } from "bson";
 //type CrudOperation = 'GET' | 'POST' | 'DELETE' | 'PUT'
 
 
-
-// export class HttpRequest{
-// 	uri = '';
-// 	header = {
-// 		"Content-Type": "application/json"
-// 	};
-// 	method = 'GET';
-// 	body = ''
-
-// 	public POST (){
-// 		this.method = 'POST'
-// 		return
-// 	}
-
-// 	public GET(){
-// 		this.method = 'GET'
-// 		return this
-// 	}
-
-// 	public DELETE(){
-// 		this.method = 'DELETE'
-// 		return this
-// 	}
-
-// 	public PUT(){
-// 		this.method = 'PUT'
-// 		return this
-// 	}
-
-// 	public setUri(uri: string){
-// 		this.uri = uri
-// 		return this
-// 	}
-
-// 	public authentication(token: Token){
-// 		this.header = Object.defineProperty(this.header, 'Authentication', `Bearer ${token.accessToken}`)
-// 		return this
-// 	}
-
-// 	public setBody(body: Object){
-// 		this.body = JSON.stringify(body)
-// 		return this
-// 	}
-
-// 	public toJson(){
-// 		return JSON.stringify(
-// 			{
-// 				method : this.method,
-// 				headers: this.header,
-// 				body: this.body
-// 			}
-// 		)
-// 	}
-// }
-
 export type login = {
 	username: String,
 	password: String
@@ -192,4 +137,11 @@ export type GeoJSON  ={
 	type: "FeatureCollection";
 	features: GeoJSONfeature[];
 }
+
+export type GeoJsonStation = {
+	type: "Station",
+	features:{
+	}
+}
+
 
