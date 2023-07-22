@@ -1,6 +1,13 @@
 import axios from 'axios';
+import { useState } from 'react';
 import useSWR from 'swr';
 import { Token, Vehicle } from './types';
+
+axios.defaults.baseURL = 'http://localhost:8080/api';
+axios.defaults.headers.common['Content-Type'] = 'application/json';
+
+
+export const [isLoggedIn, setLogged] = useState(false);
 
 type methods = 'get' | 'post' | 'put' | 'delete';
 
@@ -9,20 +16,13 @@ type userLogin = {
   password: string
 }
 
-type data = {
-  headers?:{
-    Authorization?: string,
-  },
-  body?: any
-}
+type Fetcher = <T> (crudMethod: methods) => (body: any) => (url: string)=> Promise<T>;
 
-type Fetcher = <T> (crudMethod: methods) => (data: data) => (url: string)=> Promise<T>;
-const fetcher: Fetcher = (crudMethod: methods) => (data) => (url: string) => {
-  return axios[crudMethod](url, {...data})
+const fetcher:Fetcher = (crudMethod: methods) => (body?:any) => (url: string)=> {
+  return axios[crudMethod](url, {body:body})
     .then(res => res.data)
     .catch(err => err.response.data)
-    .finally(() => console.log('finally')
-  );
+    .finally(() => console.log('finally'))
 }
 
 type Response<T> = {
@@ -31,49 +31,36 @@ type Response<T> = {
   isError: any
 }
 
-const useFetcher = <T>(url: string, crudMethod: methods, data: data): Response<T> => {
-  const { data: response, error } = useSWR(url, fetcher<T>(crudMethod)(data));
+const useFetcher = <T>(url: string, crudMethod: methods, body?:any): Response<T> => {
+  const { data, error, isLoading  } = useSWR(url, fetcher<T>(crudMethod)(body));
   return {
-    response,
-    isLoading: !error && !response,
+    response: data,
+    isLoading: isLoading,
     isError: error
   }
 }
 
-const useFetcherWithAuth = <T>(token: Token, crudMethod: methods, url: string) => {
-  return useFetcher<T>(url, crudMethod,  {headers: {Authorization: `Bearer ${token.accessToken}`}})
+
+export const login = async (user: userLogin) => {
+  const response = await fetcher<Token>('post')(user)('/login');
+  if (!response) return {response};
+  axios.defaults.headers.common['Authorization'] = `Bearer ${response.accessToken}`;
+  setLogged(true);
+  return {response};
 }
 
-const useFetcherWithAuthAndBody = <T>(token: Token, crudMethod: methods, body: any, url: string) => {
-  return useFetcher<T>(url, crudMethod, {headers: {Authorization: `Bearer ${token.accessToken}`}, body: body})
+const checkLogin = () => {
+  if (!isLoggedIn){
+    return {response: undefined, isLoading: false, isError: 'You need to login first'}
+  }
 }
 
-const useFetcherWithBody = <T>(crudMethod: methods, body: any, url: string) => {
-  return useFetcher<T>(url, crudMethod, {body: body})
+export const getVehicles = () => {
+  checkLogin();
+  return useFetcher<Vehicle[]>('/vehicles', 'get');
 }
 
-export const login = (user: userLogin) => {
-  return useFetcherWithBody<Token>('post',user,'/api/login');
+export const getVehicle = (id: string) => {
+  checkLogin();
+  return useFetcher<Vehicle>(`/vehicles/${id}`, 'get');
 }
-
-export const getVehicles = (token: Token) => {
-  return useFetcherWithAuth<Vehicle[]>(token, 'get' ,'/api/vehicles');
-}
-
-export const getVehicle = (token: Token, id: string) => {
-  return useFetcherWithAuth<Vehicle>(token, 'get', `/api/vehicles/${id}`);
-}
-
-export const createVehicle = (token: Token, vehicle: Vehicle) => {
-  return useFetcherWithAuthAndBody<Vehicle>(token, 'post', vehicle, '/api/vehicles');
-}
-
-export const updateVehicle = (token: Token, vehicle: Vehicle) => {
-  return useFetcherWithAuthAndBody<Vehicle>(token, 'put', vehicle,`/api/vehicles/${vehicle.id}`);
-}
-
-export const deleteVehicle = (token: Token, id: string) => {
-  return useFetcherWithAuth(token ,'delete', `/api/vehicles/${id}`);
-}
-
-// Path: src/pages/index.tsx
