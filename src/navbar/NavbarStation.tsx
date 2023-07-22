@@ -1,7 +1,6 @@
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
-import { MyButton } from "./MyButton";
-import Logo from "./assets/scooter.svg";
-import "./zippyColors.css";
+import Logo from "../assets/images/scooter.svg";
+// import "./zippyColors.css";
 
 export function NavbarStation({
 	showme = true,
@@ -51,12 +50,11 @@ export function NavbarStation({
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav" className="justify-content-left">
 					<Nav className="ms-auto">
-						<MyButton hidden=true, text="hola"\>
-						{/* <Button className="mx-2">
+						<Button className="mx-2">
 							<Nav.Link href="#home" hidden={!showme} className="fs-5">
 								{btn1text}
 							</Nav.Link>
-						</Button> */}
+						</Button>
 						<Button className="mx-2" variant="secondary">
 							<Nav.Link href="#link" hidden={!showme} className="fs-5">
 								{btn2text}

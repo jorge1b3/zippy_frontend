@@ -1,8 +1,7 @@
-import facebook from "./assets/images/facebook.svg";
-import instagram from "./assets/images/instagram.svg";
-import twitter from "./assets/images/twitter.svg";
-//import "./Footer.css";
 import { Col, Container, Row } from "react-bootstrap";
+import facebook from "../assets/images/facebook.svg";
+import instagram from "../assets/images/instagram.svg";
+import twitter from "../assets/images/twitter.svg";
 
 export default function Footer() {
 	return (
